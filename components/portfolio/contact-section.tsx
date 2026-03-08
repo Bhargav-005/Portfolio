@@ -45,7 +45,11 @@ const socialLinks = [
   },
 ];
 
-const API_URL = "https://portfolio-backend.onrender.com";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  (process.env.NODE_ENV === "production"
+    ? "https://portfolio-backend-qbpc.onrender.com"
+    : "http://localhost:5000");
 
 export function ContactSection() {
   const ref = useRef(null);
