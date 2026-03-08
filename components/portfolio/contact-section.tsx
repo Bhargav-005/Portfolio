@@ -45,6 +45,8 @@ const socialLinks = [
   },
 ];
 
+const API_URL = "https://portfolio-backend.onrender.com";
+
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
@@ -61,9 +63,7 @@ export function ContactSection() {
     setStatus("loading");
 
     try {
-      // Use current hostname to avoid localhost/127.0.0.1 mismatch
-      const apiHost = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-      const response = await fetch(`http://${apiHost}:5000/api/contact`, {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
