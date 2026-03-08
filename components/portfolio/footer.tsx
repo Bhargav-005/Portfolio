@@ -95,8 +95,10 @@ export function Footer() {
               href="#home"
               onClick={(e) => {
                 e.preventDefault();
-                window.location.href = "#home";
-                window.location.reload();
+                const element = document.getElementById("home");
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
               }}
               whileHover={{ y: -3 }}
               className="inline-flex items-center gap-2 text-xs text-[#6B6B6B] hover:text-[#FFFFFF] transition-colors"

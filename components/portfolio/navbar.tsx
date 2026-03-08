@@ -83,9 +83,12 @@ export function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => {
-                    // Force a page reload by setting location.href directly
-                    window.location.href = link.href;
-                    window.location.reload();
+                    e.preventDefault();
+                    const sectionId = link.href.substring(1);
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                      element.scrollIntoView({ behavior: "smooth" });
+                    }
                   }}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -151,9 +154,13 @@ export function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
                     onClick={(e) => {
+                      e.preventDefault();
                       setIsMobileMenuOpen(false);
-                      window.location.href = link.href;
-                      window.location.reload();
+                      const sectionId = link.href.substring(1);
+                      const element = document.getElementById(sectionId);
+                      if (element) {
+                        element.scrollIntoView({ behavior: "smooth" });
+                      }
                     }}
                     className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                       activeSection === link.href.substring(1)

@@ -1,37 +1,51 @@
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const contactRoutes = require('./routes/contact');
+const express = require("express");
+const cors = require("cors");
+require("dotenv").config();
+
+const contactRoutes = require("./routes/contact");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+
+// Allow frontend domains
 const allowedOrigins = [
-  'http://localhost:3000',
-  'http://127.0.0.1:3000',
-  process.env.FRONTEND_URL,
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+  process.env.FRONTEND_URL
 ].filter(Boolean);
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("CORS not allowed"));
+    },
+    credentials: true
+  })
+);
 
-// Routes
-app.use('/api', contactRoutes);
+// API routes
+app.use("/api", contactRoutes);
 
-// Health check
-app.get('/health', (req, res) => {
-  res.status(200).send('API is healthy');
+// Health check (important for Render)
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "Backend running"
+  });
 });
 
+// Root route (prevents 404 on Render)
+app.get("/", (req, res) => {
+  res.send("Portfolio Backend API running");
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
